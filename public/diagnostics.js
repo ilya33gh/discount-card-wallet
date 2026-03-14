@@ -1,0 +1,92 @@
+(function () {
+  function createOverlay(message, detail) {
+    if (document.getElementById("dcw-error-overlay")) {
+      return;
+    }
+    var overlay = document.createElement("div");
+    overlay.id = "dcw-error-overlay";
+    overlay.style.position = "fixed";
+    overlay.style.inset = "0";
+    overlay.style.zIndex = "2147483647";
+    overlay.style.background = "#0b1120";
+    overlay.style.color = "#f8fafc";
+    overlay.style.fontFamily =
+      "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif";
+    overlay.style.padding = "20px";
+    overlay.style.overflow = "auto";
+    overlay.innerHTML =
+      "<h1 style=\"margin:0 0 12px;font-size:18px;\">App load error</h1>" +
+      "<p style=\"margin:0 0 12px;font-size:14px;line-height:1.4;\">The application failed to стартовать. Скопируйте это сообщение и отправьте разработчику.</p>" +
+      "<pre style=\"white-space:pre-wrap;word-break:break-word;font-size:12px;opacity:.9;\">" +
+      message +
+      (detail ? "\n\n" + detail : "") +
+      "\n\nUA: " +
+      navigator.userAgent +
+      "</pre>";
+    document.body.appendChild(overlay);
+  }
+
+  function showBootTimeout() {
+    if (window.__dcwBooted) {
+      return;
+    }
+    var script = document.querySelector("script[type='module'][src]");
+    var asset = script ? script.getAttribute("src") : "";
+    var detail = "No app mount detected after 4s.";
+    if (asset) {
+      detail += "\nAsset: " + asset;
+      fetch(asset, { cache: "no-store" })
+        .then(function (res) {
+          var ct = res.headers.get("content-type") || "unknown";
+          detail += "\nAsset fetch: " + res.status + " " + res.statusText;
+          detail += "\nContent-Type: " + ct;
+          return res.text().then(function (text) {
+            if (text && text.trim().startsWith("<!doctype")) {
+              detail += "\nAsset content looks like HTML (fallback).";
+            }
+          });
+        })
+        .catch(function (err) {
+          detail += "\nAsset fetch error: " + String(err);
+        })
+        .finally(function () {
+          createOverlay("App did not boot", detail);
+        });
+      return;
+    }
+    createOverlay("App did not boot", detail);
+  }
+
+  window.addEventListener(
+    "error",
+    function (event) {
+      var message = event && event.message ? String(event.message) : "Unknown error";
+      var detail =
+        event && event.error && event.error.stack ? String(event.error.stack) : "";
+      createOverlay(message, detail);
+    },
+    true
+  );
+
+  window.addEventListener("unhandledrejection", function (event) {
+    var reason = event && event.reason ? String(event.reason) : "Unknown rejection";
+    createOverlay("Unhandled promise rejection", reason);
+  });
+
+  window.__dcwDiagClear = function () {
+    var existing = document.getElementById("dcw-error-overlay");
+    if (existing) {
+      existing.remove();
+    }
+  };
+
+  window.__dcwSetBooted = function () {
+    window.__dcwBooted = true;
+    var existing = document.getElementById("dcw-error-overlay");
+    if (existing) {
+      existing.remove();
+    }
+  };
+
+  setTimeout(showBootTimeout, 4000);
+})();
