@@ -1,5 +1,5 @@
-const STATIC_CACHE = "dcw-static-v2";
-const RUNTIME_CACHE = "dcw-runtime-v2";
+const STATIC_CACHE = "dcw-static-v3";
+const RUNTIME_CACHE = "dcw-runtime-v3";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -42,6 +42,19 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then((networkResponse) => {
+          const clone = networkResponse.clone();
+          caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
+          return networkResponse;
+        })
+        .catch(() => caches.match("/index.html"))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
       if (cachedResponse) {
@@ -54,12 +67,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
           return networkResponse;
         })
-        .catch(() => {
-          if (request.mode === "navigate") {
-            return caches.match("/index.html");
-          }
-          return new Response("", { status: 504, statusText: "Offline" });
-        });
+        .catch(() => new Response("", { status: 504, statusText: "Offline" }));
     })
   );
 });
