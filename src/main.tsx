@@ -19,3 +19,8 @@ createRoot(document.getElementById("root")!).render(
     </AppSettingsProvider>
   </StrictMode>
 );
+
+const markBooted = (window as Window & { __dcwSetBooted?: () => void }).__dcwSetBooted;
+if (markBooted) {
+  setTimeout(() => markBooted(), 0);
+}

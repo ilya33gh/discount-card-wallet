@@ -43,6 +43,37 @@
           document.body.appendChild(overlay);
         }
 
+        function showBootTimeout() {
+          if (window.__dcwBooted) {
+            return;
+          }
+          var script = document.querySelector("script[type='module'][src]");
+          var asset = script ? script.getAttribute("src") : "";
+          var detail = "No app mount detected after 4s.";
+          if (asset) {
+            detail += "\nAsset: " + asset;
+            fetch(asset, { cache: "no-store" })
+              .then(function (res) {
+                var ct = res.headers.get("content-type") || "unknown";
+                detail += "\nAsset fetch: " + res.status + " " + res.statusText;
+                detail += "\nContent-Type: " + ct;
+                return res.text().then(function (text) {
+                  if (text && text.trim().startsWith("<!doctype")) {
+                    detail += "\nAsset content looks like HTML (fallback).";
+                  }
+                });
+              })
+              .catch(function (err) {
+                detail += "\nAsset fetch error: " + String(err);
+              })
+              .finally(function () {
+                createOverlay("App did not boot", detail);
+              });
+            return;
+          }
+          createOverlay("App did not boot", detail);
+        }
+
         window.addEventListener("error", function (event) {
           var message = event && event.message ? String(event.message) : "Unknown error";
           var detail =
@@ -63,6 +94,16 @@
             existing.remove();
           }
         };
+
+        window.__dcwSetBooted = function () {
+          window.__dcwBooted = true;
+          var existing = document.getElementById("dcw-error-overlay");
+          if (existing) {
+            existing.remove();
+          }
+        };
+
+        setTimeout(showBootTimeout, 4000);
       })();
     </script>
   </head>
