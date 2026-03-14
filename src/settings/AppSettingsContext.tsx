@@ -6,6 +6,7 @@ import {
   useMemo,
   useState
 } from "react";
+import { safeStorage } from "../utils/safeStorage";
 
 export type LocaleMode = "system" | "en" | "ru" | "cv";
 export type ThemePreset =
@@ -80,22 +81,22 @@ const AppSettingsContext = createContext<AppSettingsContextValue | null>(null);
 
 export const AppSettingsProvider = ({ children }: PropsWithChildren) => {
   const [localeMode, setLocaleMode] = useState<LocaleMode>(() => {
-    const saved = localStorage.getItem(LOCALE_KEY);
+    const saved = safeStorage.getItem(LOCALE_KEY);
     return saved === "en" || saved === "ru" || saved === "cv" || saved === "system"
       ? saved
       : "system";
   });
   const [themeMode, setThemeMode] = useState<ThemeMode>(() =>
-    normalizeSavedThemeMode(localStorage.getItem(THEME_KEY))
+    normalizeSavedThemeMode(safeStorage.getItem(THEME_KEY))
   );
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(detectSystemTheme);
 
   useEffect(() => {
-    localStorage.setItem(LOCALE_KEY, localeMode);
+    safeStorage.setItem(LOCALE_KEY, localeMode);
   }, [localeMode]);
 
   useEffect(() => {
-    localStorage.setItem(THEME_KEY, themeMode);
+    safeStorage.setItem(THEME_KEY, themeMode);
   }, [themeMode]);
 
   useEffect(() => {

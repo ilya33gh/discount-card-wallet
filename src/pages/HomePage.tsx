@@ -10,12 +10,13 @@ import { CardListSkeleton } from "../components/common/Skeleton";
 import { useI18n } from "../i18n/useI18n";
 import addIcon from "../assets/icons/add.svg";
 import settingsIcon from "../assets/icons/settings.svg";
+import { safeStorage } from "../utils/safeStorage";
 import styles from "./HomePage.module.css";
 
 const SORT_MODE_KEY = "dcw.home.sort_mode";
 
 const getInitialSortMode = (): CardSortMode => {
-  const saved = localStorage.getItem(SORT_MODE_KEY);
+  const saved = safeStorage.getItem(SORT_MODE_KEY);
   return saved === "alphabetical" || saved === "usage" || saved === "date_added"
     ? saved
     : "date_added";
@@ -30,7 +31,7 @@ const HomePage = () => {
   const { cards, favoriteCards, isLoading } = useCards(searchTerm, categoryFilter, sortMode);
 
   useEffect(() => {
-    localStorage.setItem(SORT_MODE_KEY, sortMode);
+    safeStorage.setItem(SORT_MODE_KEY, sortMode);
   }, [sortMode]);
 
   const onFavoriteToggle = useCallback(async (id: string, value: boolean) => {
