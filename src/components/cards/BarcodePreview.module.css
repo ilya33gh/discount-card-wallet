@@ -1,0 +1,24 @@
+.preview {
+  width: 96px;
+  height: 32px;
+  border-radius: 8px;
+  background: #0d1311;
+  border: 1px solid #253630;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  color: #b6cbc2;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.svg {
+  width: 96px;
+  height: 32px;
+}
+
+.qr {
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+}

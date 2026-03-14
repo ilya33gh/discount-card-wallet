@@ -1,0 +1,105 @@
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 14px;
+  background: var(--card-surface);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.item:active {
+  transform: scale(0.992);
+}
+
+.mainButton {
+  all: unset;
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.03rem;
+  font-weight: 700;
+  color: var(--card-text);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.favoriteTag {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 620;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--card-subtle);
+  min-height: 12px;
+}
+
+.number {
+  margin: 0;
+  color: var(--card-text);
+  font-size: 0.9rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.type {
+  margin: 2px 0 0;
+  color: var(--card-subtle);
+  font-size: 0.74rem;
+  font-weight: 620;
+  letter-spacing: 0.05em;
+}
+
+.match {
+  background: rgba(255, 213, 79, 0.24);
+  color: inherit;
+  border-radius: 5px;
+  padding: 0 3px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.iconButton {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  border: 1px solid var(--line-soft);
+  background: var(--surface-2);
+  transition: transform 0.16s ease, border-color 0.16s ease, filter 0.16s ease;
+  display: grid;
+  place-items: center;
+}
+
+.iconButton:active {
+  transform: scale(0.94);
+}
+
+.iconButtonActive {
+  border-color: #f4b400;
+}
+
+.starIcon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.5;
+}
+
+.iconButtonActive .starIcon {
+  opacity: 1;
+}

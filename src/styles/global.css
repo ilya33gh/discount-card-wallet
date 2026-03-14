@@ -1,0 +1,264 @@
+:root {
+  color-scheme: dark;
+  font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.35;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --safe-top: max(env(safe-area-inset-top), 20px);
+  --safe-bottom: max(env(safe-area-inset-bottom), 14px);
+  --safe-left: max(env(safe-area-inset-left), 12px);
+  --safe-right: max(env(safe-area-inset-right), 12px);
+
+  --app-bg: #0d1117;
+  --app-bg-decor: #0d1117;
+
+  --text-primary: #e6edf3;
+  --text-secondary: #bac5d4;
+  --muted-text: #8b9bb0;
+
+  --surface-0: #161b22;
+  --surface-1: #1b2330;
+  --surface-2: #222c3c;
+  --surface-3: #2b3649;
+
+  --line-soft: #2f3c52;
+  --line-strong: #40516e;
+
+  --accent: #3b82f6;
+  --danger: #ff6b6b;
+  --focus-ring: rgba(59, 130, 246, 0.28);
+
+  --shadow-soft: 0 6px 20px rgba(2, 8, 23, 0.18);
+  --shadow-strong: 0 16px 30px rgba(2, 8, 23, 0.28);
+
+  --sticky-bg: var(--app-bg);
+  --sticky-border: var(--line-soft);
+}
+
+:root[data-theme="vscode-dark"] {
+  color-scheme: dark;
+  --app-bg: #0d1117;
+  --app-bg-decor: #0d1117;
+  --text-primary: #e6edf3;
+  --text-secondary: #bac5d4;
+  --muted-text: #8b9bb0;
+  --surface-0: #161b22;
+  --surface-1: #1b2330;
+  --surface-2: #222c3c;
+  --surface-3: #2b3649;
+  --line-soft: #2f3c52;
+  --line-strong: #40516e;
+  --accent: #3b82f6;
+  --danger: #ff6b6b;
+  --focus-ring: rgba(59, 130, 246, 0.28);
+  --shadow-soft: 0 6px 20px rgba(2, 8, 23, 0.18);
+  --shadow-strong: 0 16px 30px rgba(2, 8, 23, 0.28);
+  --sticky-bg: var(--app-bg);
+  --sticky-border: var(--line-soft);
+}
+
+:root[data-theme="oled"] {
+  color-scheme: dark;
+  --app-bg: #000000;
+  --app-bg-decor: #000000;
+  --text-primary: #f5f7ff;
+  --text-secondary: #c2cada;
+  --muted-text: #8f99ab;
+  --surface-0: #080808;
+  --surface-1: #0f0f10;
+  --surface-2: #161719;
+  --surface-3: #1f2126;
+  --line-soft: #262931;
+  --line-strong: #323848;
+  --accent: #0a84ff;
+  --danger: #ff5f5f;
+  --focus-ring: rgba(10, 132, 255, 0.3);
+  --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.32);
+  --shadow-strong: 0 16px 30px rgba(0, 0, 0, 0.4);
+  --sticky-bg: var(--app-bg);
+  --sticky-border: var(--line-soft);
+}
+
+:root[data-theme="dracula"] {
+  color-scheme: dark;
+  --app-bg: #1b1828;
+  --app-bg-decor: #1b1828;
+  --text-primary: #f6f2ff;
+  --text-secondary: #d7cceb;
+  --muted-text: #aa9cc8;
+  --surface-0: #241f36;
+  --surface-1: #2b2640;
+  --surface-2: #342d4d;
+  --surface-3: #3f365e;
+  --line-soft: #4b406d;
+  --line-strong: #5d4f88;
+  --accent: #bd93f9;
+  --danger: #ff6e96;
+  --focus-ring: rgba(189, 147, 249, 0.28);
+  --shadow-soft: 0 6px 20px rgba(14, 10, 24, 0.22);
+  --shadow-strong: 0 16px 30px rgba(14, 10, 24, 0.34);
+  --sticky-bg: var(--app-bg);
+  --sticky-border: var(--line-soft);
+}
+
+:root[data-theme="monokai"] {
+  color-scheme: dark;
+  --app-bg: #1f201b;
+  --app-bg-decor: #1f201b;
+  --text-primary: #f8f8f2;
+  --text-secondary: #d7d7c8;
+  --muted-text: #a5a690;
+  --surface-0: #2a2b24;
+  --surface-1: #313229;
+  --surface-2: #393b31;
+  --surface-3: #45473b;
+  --line-soft: #505445;
+  --line-strong: #636855;
+  --accent: #ffd866;
+  --danger: #ff6188;
+  --focus-ring: rgba(255, 216, 102, 0.24);
+  --shadow-soft: 0 6px 20px rgba(10, 10, 8, 0.2);
+  --shadow-strong: 0 16px 30px rgba(10, 10, 8, 0.3);
+  --sticky-bg: var(--app-bg);
+  --sticky-border: var(--line-soft);
+}
+
+:root[data-theme="solarized-dark"] {
+  color-scheme: dark;
+  --app-bg: #002b36;
+  --app-bg-decor: #002b36;
+  --text-primary: #d9e6e6;
+  --text-secondary: #b5c6c6;
+  --muted-text: #90a7a9;
+  --surface-0: #073642;
+  --surface-1: #0b3d4b;
+  --surface-2: #114856;
+  --surface-3: #1c5563;
+  --line-soft: #276272;
+  --line-strong: #367889;
+  --accent: #2aa198;
+  --danger: #dc322f;
+  --focus-ring: rgba(42, 161, 152, 0.28);
+  --shadow-soft: 0 6px 20px rgba(0, 16, 20, 0.24);
+  --shadow-strong: 0 16px 30px rgba(0, 16, 20, 0.34);
+  --sticky-bg: var(--app-bg);
+  --sticky-border: var(--line-soft);
+}
+
+:root[data-theme="vscode-light"] {
+  color-scheme: light;
+  --app-bg: #eef3f9;
+  --app-bg-decor: #eef3f9;
+  --text-primary: #16243f;
+  --text-secondary: #2d4065;
+  --muted-text: #60749a;
+  --surface-0: #ffffff;
+  --surface-1: #f8fbff;
+  --surface-2: #eef3fa;
+  --surface-3: #e4ebf6;
+  --line-soft: #d3deef;
+  --line-strong: #bccce4;
+  --accent: #2563eb;
+  --danger: #d83d4f;
+  --focus-ring: rgba(37, 99, 235, 0.22);
+  --shadow-soft: 0 4px 16px rgba(16, 31, 56, 0.08);
+  --shadow-strong: 0 12px 24px rgba(16, 31, 56, 0.12);
+  --sticky-bg: var(--app-bg);
+  --sticky-border: var(--line-soft);
+}
+
+:root[data-theme="github-light"] {
+  color-scheme: light;
+  --app-bg: #f6f8fa;
+  --app-bg-decor: #f6f8fa;
+  --text-primary: #1f2328;
+  --text-secondary: #3b424d;
+  --muted-text: #59636e;
+  --surface-0: #ffffff;
+  --surface-1: #f8fafc;
+  --surface-2: #f2f4f7;
+  --surface-3: #ebeff3;
+  --line-soft: #d0d7de;
+  --line-strong: #b9c3cf;
+  --accent: #0969da;
+  --danger: #cf222e;
+  --focus-ring: rgba(9, 105, 218, 0.22);
+  --shadow-soft: 0 4px 16px rgba(31, 35, 40, 0.07);
+  --shadow-strong: 0 12px 24px rgba(31, 35, 40, 0.1);
+  --sticky-bg: var(--app-bg);
+  --sticky-border: var(--line-soft);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+html,
+body {
+  touch-action: manipulation;
+}
+
+body {
+  background: var(--app-bg-decor);
+  color: var(--text-primary);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+  transform: translateZ(0);
+  transition: transform 0.14s ease, filter 0.16s ease, border-color 0.18s ease,
+    background-color 0.18s ease, color 0.18s ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+a {
+  color: inherit;
+  transition: color 0.16s ease, opacity 0.16s ease;
+}
+
+a:active {
+  opacity: 0.88;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

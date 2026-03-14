@@ -1,0 +1,471 @@
+﻿import { useMemo } from "react";
+import { useAppSettings } from "../settings/AppSettingsContext";
+
+const TRANSLATIONS = {
+  en: {
+    common: {
+      back: "Back",
+      close: "Close",
+      edit: "Edit",
+      delete: "Delete",
+      loading: "Loading...",
+      settings: "Settings",
+      updateAvailable: "New app version is available",
+      updateNow: "Update now",
+      installAvailable: "Install app to home screen",
+      installNow: "Install"
+    },
+    home: {
+      title: "Card Wallet",
+      searchPlaceholder: "Search",
+      categoriesAll: "All",
+      loadingCards: "Loading cards...",
+      empty: "No cards yet. Add your first loyalty card.",
+      favorites: "Favorites",
+      allCards: "All cards",
+      cards: "Cards",
+      addCard: "Add card",
+      favoriteLabel: "Favorite",
+      sortDateAdded: "By date added",
+      sortAlphabetical: "By alphabet",
+      sortUsage: "By usage"
+    },
+    form: {
+      addTitle: "Add card",
+      editTitle: "Edit card",
+      storeName: "Store name",
+      cardNumber: "Card number",
+      barcodeType: "Barcode type",
+      category: "Category",
+      notes: "Notes (optional)",
+      notesPlaceholder: "Store opening times, benefits, etc.",
+      color: "Card color",
+      favorite: "Favorite card",
+      scan: "Scan barcode",
+      scanTakePhoto: "Take photo",
+      scanChoosePhoto: "Choose photo",
+      scanChooseFile: "Choose file",
+      save: "Save",
+      update: "Update",
+      saving: "Saving...",
+      saveFailed: "Could not save card. Please try again.",
+      colors: {
+        blue: "Blue",
+        green: "Green",
+        orange: "Orange",
+        purple: "Purple",
+        gray: "Gray"
+      },
+      categories: {
+        grocery: "Grocery",
+        pharmacy: "Pharmacy",
+        fashion: "Fashion",
+        fuel: "Fuel",
+        cafe: "Cafe",
+        electronics: "Electronics",
+        other: "Other"
+      }
+    },
+    detail: {
+      checkout: "Wallet view",
+      cardNotFound: "Card not found",
+      cardNotFoundText: "This card was deleted or does not exist.",
+      favorite: "Favorite",
+      unfavorite: "Unfavorite",
+      deleteConfirm: "Delete {name}?",
+      notes: "Notes",
+      category: "Category",
+      ean13: "EAN-13",
+      code128: "CODE-128",
+      qr: "QR",
+      eanUnavailable: "Need at least 12 digits"
+    },
+    scanner: {
+      hint: "Point camera at barcode or QR code",
+      unavailable: "Camera permission denied or unavailable. Enter the number manually.",
+      readFailed:
+        "Could not recognize barcode/QR from the selected file. Try a clearer image."
+    },
+    settings: {
+      title: "Settings",
+      language: "Language",
+      languageSystem: "System",
+      languageEnglish: "English",
+      languageRussian: "Russian",
+      languageChuvash: "Chuvash",
+      theme: "Theme",
+      themeSystem: "System",
+      themeVsCodeDark: "VS Code Dark+",
+      themeVsCodeLight: "VS Code Light+",
+      themeOled: "OLED Black",
+      themeDracula: "Dracula",
+      themeMonokai: "Monokai",
+      themeSolarizedDark: "Solarized Dark",
+      themeGithubLight: "GitHub Light",
+      sync: "Cloud sync",
+      syncServerUrl: "Server URL",
+      syncServerUrlPlaceholder: "http://localhost:8787",
+      saveServerUrl: "Save URL",
+      accountHint: "Account is optional. Use it only to sync cards between devices.",
+      serverStatus: "Server status",
+      serverChecking: "Checking...",
+      serverOnline: "Online",
+      serverOffline: "Offline",
+      cloudCards: "Cards in cloud",
+      cloudCardsValue: "{count} active ({total} total)",
+      email: "Email",
+      password: "Password",
+      login: "Sign in",
+      register: "Register",
+      logout: "Sign out",
+      syncNow: "Sync now",
+      syncStatusSignedOut: "Not signed in. Local offline mode is active.",
+      syncStatusSignedIn: "Signed in as {email}",
+      syncStatusSuccess: "Sync completed",
+      syncStatusFailed: "Sync failed",
+      syncStateIdle: "Idle",
+      syncStateScheduled: "Scheduled",
+      syncStateSyncing: "Sync in progress...",
+      syncStateRestoring: "Restoring from cloud...",
+      syncStateSuccess: "Synchronized",
+      syncStateError: "Sync error",
+      lastSync: "Last sync",
+      backup: "Backup",
+      exportJson: "Export JSON",
+      importJson: "Import JSON",
+      exportSuccess: "Backup exported",
+      exportFailed: "Export failed",
+      importSuccess: "Imported {imported}, skipped {skipped}",
+      importFailed: "Import failed",
+      invalidBackup: "Invalid backup file format"
+    },
+    validation: {
+      storeRequired: "Store name is required.",
+      numberRequired: "Card number is required.",
+      eanDigits: "EAN13 must contain 12 or 13 digits.",
+      eanChecksum: "EAN13 check digit is invalid.",
+      code128Length: "CODE128 must be 80 characters or fewer.",
+      qrLength: "QR value must be 512 characters or fewer."
+    }
+  },
+  ru: {
+    common: {
+      back: "Назад",
+      close: "Закрыть",
+      edit: "Изменить",
+      delete: "Удалить",
+      loading: "Загрузка...",
+      settings: "Настройки",
+      updateAvailable: "Доступна новая версия приложения",
+      updateNow: "Обновить",
+      installAvailable: "Установить приложение на главный экран",
+      installNow: "Установить"
+    },
+    home: {
+      title: "Кошелек карт",
+      searchPlaceholder: "Поиск",
+      categoriesAll: "Все",
+      loadingCards: "Загрузка карт...",
+      empty: "Пока нет карт. Добавьте первую карту.",
+      favorites: "Избранные",
+      allCards: "Все карты",
+      cards: "Карты",
+      addCard: "Добавить",
+      favoriteLabel: "Избранная",
+      sortDateAdded: "По дате добавления",
+      sortAlphabetical: "По алфавиту",
+      sortUsage: "По частоте использования"
+    },
+    form: {
+      addTitle: "Новая карта",
+      editTitle: "Редактирование",
+      storeName: "Магазин",
+      cardNumber: "Номер карты",
+      barcodeType: "Тип штрихкода",
+      category: "Категория",
+      notes: "Заметки (необязательно)",
+      notesPlaceholder: "Часы работы, условия скидок и т.д.",
+      color: "Цвет карты",
+      favorite: "Добавить в избранное",
+      scan: "Сканировать",
+      scanTakePhoto: "Сделать фото",
+      scanChoosePhoto: "Выбрать фото",
+      scanChooseFile: "Выбрать файл",
+      save: "Сохранить",
+      update: "Обновить",
+      saving: "Сохранение...",
+      saveFailed: "Не удалось сохранить карту. Попробуйте еще раз.",
+      colors: {
+        blue: "Синий",
+        green: "Зеленый",
+        orange: "Оранжевый",
+        purple: "Фиолетовый",
+        gray: "Серый"
+      },
+      categories: {
+        grocery: "Продукты",
+        pharmacy: "Аптека",
+        fashion: "Одежда",
+        fuel: "Топливо",
+        cafe: "Кафе",
+        electronics: "Электроника",
+        other: "Другое"
+      }
+    },
+    detail: {
+      checkout: "Экран карты",
+      cardNotFound: "Карта не найдена",
+      cardNotFoundText: "Карта удалена или не существует.",
+      favorite: "В избранное",
+      unfavorite: "Убрать из избранного",
+      deleteConfirm: "Удалить карту {name}?",
+      notes: "Заметки",
+      category: "Категория",
+      ean13: "EAN-13",
+      code128: "CODE-128",
+      qr: "QR",
+      eanUnavailable: "Нужно минимум 12 цифр"
+    },
+    scanner: {
+      hint: "Наведите камеру на штрихкод или QR-код",
+      unavailable: "Нет доступа к камере. Введите номер вручную.",
+      readFailed:
+        "Не удалось распознать штрихкод/QR на выбранном файле. Попробуйте более четкое фото."
+    },
+    settings: {
+      title: "Настройки",
+      language: "Язык",
+      languageSystem: "Системный",
+      languageEnglish: "English",
+      languageRussian: "Русский",
+      languageChuvash: "Чӑваш",
+      theme: "Тема",
+      themeSystem: "Системная",
+      themeVsCodeDark: "VS Code Dark+",
+      themeVsCodeLight: "VS Code Light+",
+      themeOled: "OLED Black",
+      themeDracula: "Dracula",
+      themeMonokai: "Monokai",
+      themeSolarizedDark: "Solarized Dark",
+      themeGithubLight: "GitHub Light",
+      sync: "Облачная синхронизация",
+      syncServerUrl: "URL сервера",
+      syncServerUrlPlaceholder: "http://localhost:8787",
+      saveServerUrl: "Сохранить URL",
+      accountHint: "Аккаунт необязателен. Нужен только для синхронизации между устройствами.",
+      serverStatus: "Статус сервера",
+      serverChecking: "Проверка...",
+      serverOnline: "Онлайн",
+      serverOffline: "Офлайн",
+      cloudCards: "Карт в облаке",
+      cloudCardsValue: "{count} активных ({total} всего)",
+      email: "Email",
+      password: "Пароль",
+      login: "Войти",
+      register: "Регистрация",
+      logout: "Выйти",
+      syncNow: "Синхронизировать",
+      syncStatusSignedOut: "Вход не выполнен. Локальный офлайн-режим активен.",
+      syncStatusSignedIn: "Выполнен вход: {email}",
+      syncStatusSuccess: "Синхронизация завершена",
+      syncStatusFailed: "Ошибка синхронизации",
+      syncStateIdle: "Ожидание",
+      syncStateScheduled: "Запланировано",
+      syncStateSyncing: "Синхронизация...",
+      syncStateRestoring: "Восстановление из облака...",
+      syncStateSuccess: "Синхронизировано",
+      syncStateError: "Ошибка синка",
+      lastSync: "Последняя синхронизация",
+      backup: "Резервная копия",
+      exportJson: "Экспорт JSON",
+      importJson: "Импорт JSON",
+      exportSuccess: "Резервная копия экспортирована",
+      exportFailed: "Ошибка экспорта",
+      importSuccess: "Импортировано {imported}, пропущено {skipped}",
+      importFailed: "Ошибка импорта",
+      invalidBackup: "Неверный формат файла резервной копии"
+    },
+    validation: {
+      storeRequired: "Укажите название магазина.",
+      numberRequired: "Укажите номер карты.",
+      eanDigits: "EAN13 должен содержать 12 или 13 цифр.",
+      eanChecksum: "Неверная контрольная цифра EAN13.",
+      code128Length: "CODE128 должен быть не длиннее 80 символов.",
+      qrLength: "Значение QR должно быть не длиннее 512 символов."
+    }
+  },
+  cv: {
+    common: {
+      back: "Каялла",
+      close: "Хуп",
+      edit: "Тӳрлет",
+      delete: "Кӑлар",
+      loading: "Тиес̧терӳ...",
+      settings: "Кӑйлавсем",
+      updateAvailable: "Приложенин ҫӗнӗ версийӗ пур",
+      updateNow: "Халех ҫӗнет",
+      installAvailable: "Приложенине хӑюл экранне ларт",
+      installNow: "Ларт"
+    },
+    home: {
+      title: "Картсен кошелёкӗ",
+      searchPlaceholder: "Шырав",
+      categoriesAll: "Пурте",
+      loadingCards: "Картсене тиес̧терет...",
+      empty: "Карта ҫук-ха. Пӗрремӗш лояльность картине хушӑр.",
+      favorites: "Ятлӑ",
+      allCards: "Пур картсем",
+      cards: "Картсем",
+      addCard: "Хуш",
+      favoriteLabel: "Ятлӑ",
+      sortDateAdded: "Хушни кунӗпе",
+      sortAlphabetical: "Алфавитпа",
+      sortUsage: "Усӑ курни часотипе"
+    },
+    form: {
+      addTitle: "Карта хушу",
+      editTitle: "Картă тӳрлетӳ",
+      storeName: "Кибет ячӗ",
+      cardNumber: "Карта номерӗ",
+      barcodeType: "Штрихкод тӗсӗ",
+      category: "Категори",
+      notes: "Палӑртусем (кирлӗ мар)",
+      notesPlaceholder: "Уҫӑ вӑхӑчӗ, ташшӑ скидкӑ т. ыт.",
+      color: "Карта тӗсӗ",
+      favorite: "Ятлӑ карта",
+      scan: "Штрихкод сканерла",
+      scanTakePhoto: "Сӑн ӳкер",
+      scanChoosePhoto: "Сӑн суйла",
+      scanChooseFile: "Файл суйла",
+      save: "Сыхла",
+      update: "Ҫӗнет",
+      saving: "Сыхлат...",
+      saveFailed: "Картине сыхлаймарӑм. Тепӗр хут тӑвӑр.",
+      colors: {
+        blue: "Кӑвак",
+        green: "Симӗс",
+        orange: "Хӗрлӗ-сарӑ",
+        purple: "Фиолет",
+        gray: "Сӑрӑ"
+      },
+      categories: {
+        grocery: "Продуктсем",
+        pharmacy: "Аптека",
+        fashion: "Кӗпе-йӗм",
+        fuel: "Янкӑр",
+        cafe: "Кафе",
+        electronics: "Электроника",
+        other: "Урӑх"
+      }
+    },
+    detail: {
+      checkout: "Карта курӑну",
+      cardNotFound: "Карта тупӑнмарӗ",
+      cardNotFoundText: "Карта кӑларнӑ е пур мар.",
+      favorite: "Ятлӑ тӑвас",
+      unfavorite: "Ятлӑран илес",
+      deleteConfirm: "{name} картине кӑларас-и?",
+      notes: "Палӑртусем",
+      category: "Категори",
+      ean13: "EAN-13",
+      code128: "CODE-128",
+      qr: "QR",
+      eanUnavailable: "Камӑн та пулин 12 цифра кирлӗ"
+    },
+    scanner: {
+      hint: "Камерана штрихкод е QR код ҫине тытӑр",
+      unavailable: "Камерана ирӗк ҫук. Номерне алӑпа кӗртӗр.",
+      readFailed:
+        "Суйланӑ файлтран штрихкод/QR код вулама пулмарӗ. Пачахрах сӑн тӑрӑшӑр."
+    },
+    settings: {
+      title: "Кӑйлавсем",
+      language: "Чӗлхе",
+      languageSystem: "Системӑ чӗлхи",
+      languageEnglish: "English",
+      languageRussian: "Русский",
+      languageChuvash: "Чӑваш",
+      theme: "Тема",
+      themeSystem: "Системӑ",
+      themeVsCodeDark: "VS Code Dark+",
+      themeVsCodeLight: "VS Code Light+",
+      themeOled: "OLED Black",
+      themeDracula: "Dracula",
+      themeMonokai: "Monokai",
+      themeSolarizedDark: "Solarized Dark",
+      themeGithubLight: "GitHub Light",
+      sync: "Пӗлӗт синхронизаци",
+      syncServerUrl: "Сервер URL",
+      syncServerUrlPlaceholder: "http://localhost:8787",
+      saveServerUrl: "URL сыхла",
+      accountHint:
+        "Аккаунт кирлӗ мар. Вӑл приборсем хушшинче синхронизацишӗн анчах кирлӗ.",
+      serverStatus: "Сервер статусӗ",
+      serverChecking: "Тӗрӗслет...",
+      serverOnline: "Онлайн",
+      serverOffline: "Офлайн",
+      cloudCards: "Пӗлӗтри картсем",
+      cloudCardsValue: "{count} активлӑ ({total} пурӗ)",
+      email: "Email",
+      password: "Пароль",
+      login: "Кӗр",
+      register: "Регистраци",
+      logout: "Тух",
+      syncNow: "Синхронла",
+      syncStatusSignedOut: "Кӗмен. Локаль офлайн режим ӗҫлет.",
+      syncStatusSignedIn: "{email} пек кӗнӗ",
+      syncStatusSuccess: "Синхронизаци пулчӗ",
+      syncStatusFailed: "Синхронизаци йӑнӑшӗ",
+      syncStateIdle: "Кӗтет",
+      syncStateScheduled: "Планра",
+      syncStateSyncing: "Синхронизаци пырать...",
+      syncStateRestoring: "Пӗлӗтрен кайалла тавӑрат...",
+      syncStateSuccess: "Синхронланнӑ",
+      syncStateError: "Синк йӑнӑшӗ",
+      lastSync: "Юлашки синхронизаци",
+      backup: "Резерв копи",
+      exportJson: "JSON экспорт",
+      importJson: "JSON импорт",
+      exportSuccess: "Резерв копи экспортланчӗ",
+      exportFailed: "Экспорт йӑнӑшӗ",
+      importSuccess: "Импортланнӑ: {imported}, сиктернӗ: {skipped}",
+      importFailed: "Импорт йӑнӑшӗ",
+      invalidBackup: "Резерв копи файлӗн форматӗ тӗрӗс мар"
+    },
+    validation: {
+      storeRequired: "Кибет ятне кӗртӗр.",
+      numberRequired: "Карта номерне кӗртӗр.",
+      eanDigits: "EAN13 12 е 13 цифра тытма тивӗҫ.",
+      eanChecksum: "EAN13 контроль цифри йӑнӑш.",
+      code128Length: "CODE128 80 символран кӗске пулмалла.",
+      qrLength: "QR пӗлтерӗшӗ 512 символран кӗске пулмалла."
+    }
+  }
+} as const;
+
+type SupportedLocale = keyof typeof TRANSLATIONS;
+
+const detectSystemLocale = (): SupportedLocale => {
+  const language = navigator.language.toLowerCase();
+  if (language.startsWith("cv")) {
+    return "cv";
+  }
+  if (language.startsWith("ru")) {
+    return "ru";
+  }
+  return "en";
+};
+
+export const useI18n = () => {
+  const { localeMode } = useAppSettings();
+
+  const locale = useMemo<SupportedLocale>(
+    () => (localeMode === "system" ? detectSystemLocale() : localeMode),
+    [localeMode]
+  );
+
+  return {
+    locale,
+    t: TRANSLATIONS[locale]
+  };
+};

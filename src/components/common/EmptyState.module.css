@@ -1,0 +1,10 @@
+.empty {
+  border: 1px dashed var(--line-soft);
+  border-radius: 18px;
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--muted-text);
+  background: var(--surface-1);
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-soft);
+}

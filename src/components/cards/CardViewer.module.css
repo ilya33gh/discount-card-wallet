@@ -1,0 +1,235 @@
+.viewer {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  padding-top: 2px;
+}
+
+.walletCard {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  animation: viewer-in 0.2s ease-out;
+}
+
+.cardHeader {
+  margin-bottom: 12px;
+}
+
+.store {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 760;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.number {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.codeTile {
+  border-radius: 15px;
+  border: 1px solid var(--line-soft);
+  background: var(--surface-2);
+  padding: 10px;
+  min-width: 0;
+}
+
+.notesBlock {
+  margin-top: 10px;
+  border: 1px solid var(--line-soft);
+  background: var(--surface-2);
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.notesTitle {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-text);
+  font-weight: 700;
+}
+
+.notesText {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.codeTitle {
+  margin: 0 0 8px;
+  font-size: 0.74rem;
+  color: var(--muted-text);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.codeBody {
+  width: 100%;
+  min-width: 0;
+  height: clamp(132px, 23vh, 176px);
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #d1d1d6;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  overflow: hidden;
+  cursor: zoom-in;
+  transition: transform 0.14s ease;
+}
+
+.codeBody:active {
+  transform: scale(0.99);
+}
+
+.codeBody:disabled {
+  cursor: default;
+}
+
+.svgCode {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.qrWrap {
+  width: min(100%, 150px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+}
+
+.qrWrap svg {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.zoomOverlay {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 100;
+  animation: overlay-in 0.16s ease-out;
+}
+
+.zoomCard {
+  width: min(94vw, 620px);
+  border-radius: 18px;
+  border: 1px solid var(--line-soft);
+  background: var(--surface-0);
+  padding: 14px;
+  box-shadow: var(--shadow-strong);
+  animation: zoom-in 0.18s ease-out;
+}
+
+.zoomTitle {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted-text);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.zoomBody {
+  width: 100%;
+  min-height: 230px;
+  border-radius: 12px;
+  border: 1px solid #d1d1d6;
+  background: #ffffff;
+  padding: 12px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.qrWrapZoom {
+  width: min(100%, 320px);
+  aspect-ratio: 1 / 1;
+}
+
+.qrWrapZoom svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.svgCodeZoom {
+  width: 100%;
+  height: 220px;
+  max-width: 100%;
+}
+
+.unavailable {
+  color: var(--muted-text);
+  font-size: 0.8rem;
+}
+
+@keyframes viewer-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

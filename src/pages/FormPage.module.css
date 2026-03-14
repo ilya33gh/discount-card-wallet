@@ -1,0 +1,22 @@
+.page {
+  display: grid;
+  gap: 16px;
+  background: var(--surface-0);
+  border: 1px solid var(--line-soft);
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: var(--shadow-soft);
+  min-width: 0;
+  animation: fade-in 0.22s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

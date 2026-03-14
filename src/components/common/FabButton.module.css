@@ -1,0 +1,15 @@
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 500;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.28);
+}

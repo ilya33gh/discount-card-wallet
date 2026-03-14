@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  cards        Card[]
+}
+
+model Card {
+  userId      String
+  id          String
+  name        String
+  number      String
+  barcodeType String
+  cardColor   String
+  category    String
+  favorite    Boolean  @default(false)
+  notes       String   @default("")
+  logoDataUrl String?
+  createdAt   DateTime
+  updatedAt   DateTime
+  deletedAt   DateTime?
+  usageCount  Int      @default(0)
+  lastUsedAt  DateTime?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, id])
+  @@index([userId, updatedAt])
+}

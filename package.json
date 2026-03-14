@@ -1,0 +1,37 @@
+{
+  "name": "discount-card-wallet",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "server:dev": "npm --prefix server run dev",
+    "server:build": "npm --prefix server run build",
+    "server:prisma:push": "npm --prefix server run prisma:push"
+  },
+  "dependencies": {
+    "@ericblade/quagga2": "^1.12.1",
+    "@zxing/browser": "^0.1.5",
+    "@zxing/library": "^0.21.3",
+    "dexie": "^4.0.11",
+    "dexie-react-hooks": "^1.1.7",
+    "jsbarcode": "^3.12.1",
+    "jsqr": "^1.4.0",
+    "qrcode": "^1.5.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^6.28.1"
+  },
+  "devDependencies": {
+    "@types/jsbarcode": "^3.11.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.4.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
+  }
+}
