@@ -36,6 +36,12 @@ export const App = () => {
 
   useEffect(() => subscribePwaUpdate(setIsPwaUpdateReady), []);
   useEffect(() => subscribeInstallPrompt(setCanInstall), []);
+  useEffect(() => {
+    const clearDiag = (window as Window & { __dcwDiagClear?: () => void }).__dcwDiagClear;
+    if (clearDiag) {
+      clearDiag();
+    }
+  }, []);
 
   return (
     <main className={styles.appShell}>
