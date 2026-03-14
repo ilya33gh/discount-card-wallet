@@ -4,7 +4,7 @@ const SYNC_SERVER_URL_KEY = "dcw.sync.server_url";
 const SYNC_SESSION_KEY = "dcw.sync.session";
 const SYNC_CURSOR_PREFIX = "dcw.sync.cursor.";
 
-const DEFAULT_SYNC_SERVER_URL = "http://localhost:8787";
+const DEFAULT_SYNC_SERVER_URL = "https://sync.ilynoise.ru";
 
 const safeReadJson = <T>(value: string | null): T | null => {
   if (!value) {

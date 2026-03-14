@@ -2,6 +2,11 @@
 
 Mobile-first offline-first PWA for storing and displaying loyalty/discount cards on iPhone (iOS Safari Add to Home Screen).
 
+## Live
+
+- App: https://wallet.ilynoise.ru
+- Sync API: https://sync.ilynoise.ru
+
 ## Stack
 
 - React + TypeScript + Vite
