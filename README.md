@@ -2,11 +2,6 @@
 
 Mobile-first offline-first PWA for storing and displaying loyalty/discount cards on iPhone (iOS Safari Add to Home Screen).
 
-## Live
-
-- App: https://example.com
-- Sync API: https://example.com
-
 ## Stack
 
 - React + TypeScript + Vite
