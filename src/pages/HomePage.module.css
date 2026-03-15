@@ -1,7 +1,7 @@
-.page {
+﻿.page {
   display: grid;
   gap: 14px;
-  padding-top: 2px;
+  padding: 2px 0 0;
   overflow-x: clip;
   animation: fade-in 0.22s ease-out;
 }
@@ -62,16 +62,16 @@
   top: var(--safe-top);
   width: 100%;
   z-index: 12;
-  padding: 8px 0 12px;
+  padding: 10px 0 14px;
   isolation: isolate;
-  overflow-x: clip;
+  overflow: visible;
 }
 
 .searchWrap::before {
   content: "";
   position: absolute;
   z-index: -1;
-  top: calc(-1 * (var(--safe-top) + 8px));
+  top: calc(-1 * (var(--safe-top) + 10px));
   bottom: 0;
   left: 50%;
   width: 100vw;
@@ -85,13 +85,13 @@
   display: flex;
   flex-wrap: nowrap;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 10px;
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-x: contain;
-  padding-bottom: 2px;
+  padding: 4px 0 6px;
   scrollbar-width: none;
 }
 
