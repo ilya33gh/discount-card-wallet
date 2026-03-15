@@ -4,8 +4,8 @@ Mobile-first offline-first PWA for storing and displaying loyalty/discount cards
 
 ## Live
 
-- App: https://wallet.ilynoise.ru
-- Sync API: https://sync.ilynoise.ru
+- App: https://example.com
+- Sync API: https://example.com
 
 ## Stack
 
