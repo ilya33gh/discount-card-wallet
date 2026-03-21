@@ -1,5 +1,5 @@
-const STATIC_CACHE = "dcw-static-v6";
-const RUNTIME_CACHE = "dcw-runtime-v6";
+const STATIC_CACHE = "dcw-static-v8";
+const RUNTIME_CACHE = "dcw-runtime-v8";
 const APP_SHELL = [
   "/",
   "/index.html",
