@@ -31,22 +31,24 @@ const EditCardPage = () => {
   return (
     <section className={styles.page}>
       <ScreenHeader title={t.form.editTitle} backTo={`/cards/${id}`} backLabel={t.common.back} />
-      <AddCardForm
-        submitLabel={t.form.update}
-        initialValues={{
-          name: card.name,
-          number: card.number,
-          barcodeType: card.barcodeType,
-          cardColor: card.cardColor,
-          category: card.category,
-          notes: card.notes,
-          favorite: card.favorite
-        }}
-        onSubmit={async (input) => {
-          await cardService.updateCard(id, input);
-          navigate(`/cards/${id}`);
-        }}
-      />
+      <section className={styles.content}>
+        <AddCardForm
+          submitLabel={t.form.update}
+          initialValues={{
+            name: card.name,
+            number: card.number,
+            barcodeType: card.barcodeType,
+            cardColor: card.cardColor,
+            category: card.category,
+            notes: card.notes,
+            favorite: card.favorite
+          }}
+          onSubmit={async (input) => {
+            await cardService.updateCard(id, input);
+            navigate(`/cards/${id}`);
+          }}
+        />
+      </section>
     </section>
   );
 };

@@ -1,10 +1,12 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import { IconX } from "@tabler/icons-react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useI18n } from "../i18n/useI18n";
 import { promptInstall, subscribeInstallPrompt } from "../pwa/installPrompt";
 import { applyPwaUpdate, subscribePwaUpdate } from "../pwa/registerServiceWorker";
 import { accountService } from "../services/sync/accountService";
 import { syncCoordinator } from "../services/sync/syncCoordinator";
+import { safeStorage } from "../utils/safeStorage";
 import styles from "./App.module.css";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
@@ -13,11 +15,18 @@ const CardDetailPage = lazy(() => import("../pages/CardDetailPage"));
 const EditCardPage = lazy(() => import("../pages/EditCardPage"));
 const SettingsPage = lazy(() => import("../pages/SettingsPage"));
 let bootSyncStarted = false;
+const INSTALL_BANNER_DISMISSED_KEY = "dcw.install_banner.dismissed";
 
 export const App = () => {
   const { t } = useI18n();
   const [isPwaUpdateReady, setIsPwaUpdateReady] = useState(false);
   const [canInstall, setCanInstall] = useState(false);
+  const [isInstallDismissed, setIsInstallDismissed] = useState(
+    () => safeStorage.getItem(INSTALL_BANNER_DISMISSED_KEY) === "1"
+  );
+
+  const isAndroid =
+    typeof navigator !== "undefined" && /android/i.test(navigator.userAgent);
 
   useEffect(() => {
     if (bootSyncStarted) {
@@ -36,6 +45,13 @@ export const App = () => {
 
   useEffect(() => subscribePwaUpdate(setIsPwaUpdateReady), []);
   useEffect(() => subscribeInstallPrompt(setCanInstall), []);
+  useEffect(() => {
+    if (canInstall) {
+      return;
+    }
+    setIsInstallDismissed(false);
+    safeStorage.removeItem(INSTALL_BANNER_DISMISSED_KEY);
+  }, [canInstall]);
   useEffect(() => {
     const clearDiag = (window as Window & { __dcwDiagClear?: () => void }).__dcwDiagClear;
     if (clearDiag) {
@@ -59,18 +75,37 @@ export const App = () => {
           </button>
         </div>
       ) : null}
-      {canInstall ? (
+      {canInstall && isAndroid && !isInstallDismissed ? (
         <div className={styles.installBanner}>
           <p className={styles.updateText}>{t.common.installAvailable}</p>
-          <button
-            type="button"
-            className={styles.installButton}
-            onClick={() => {
-              void promptInstall();
-            }}
-          >
-            {t.common.installNow}
-          </button>
+          <div className={styles.installActions}>
+            <button
+              type="button"
+              className={styles.installButton}
+              onClick={() => {
+                void (async () => {
+                  const installed = await promptInstall();
+                  if (installed) {
+                    setIsInstallDismissed(false);
+                    safeStorage.removeItem(INSTALL_BANNER_DISMISSED_KEY);
+                  }
+                })();
+              }}
+            >
+              {t.common.installNow}
+            </button>
+            <button
+              type="button"
+              className={styles.dismissButton}
+              onClick={() => {
+                setIsInstallDismissed(true);
+                safeStorage.setItem(INSTALL_BANNER_DISMISSED_KEY, "1");
+              }}
+              aria-label={t.common.close}
+            >
+              <IconX size={20} stroke={2} aria-hidden="true" />
+            </button>
+          </div>
         </div>
       ) : null}
       <Suspense fallback={<div className={styles.loading}>{t.common.loading}</div>}>

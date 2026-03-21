@@ -3,14 +3,13 @@ import { sanitizeText } from "../../utils/validation";
 import { Card, BarcodeType, CardCategory, CardColor } from "../../types/card";
 import { normalizeCardCategory } from "./cardCategories";
 import { normalizeCardColor } from "./cardColors";
+import { BARCODE_TYPES } from "../barcode/barcodeService";
 
 interface CardBackupPayload {
   version: 1;
   exportedAt: number;
   cards: Card[];
 }
-
-const BARCODE_TYPES: BarcodeType[] = ["EAN13", "CODE128", "QR"];
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
@@ -61,7 +60,11 @@ const normalizeImportedCard = (raw: unknown): Card | null => {
     return null;
   }
 
-  const normalizedNumber = sanitizeText(typeof raw.number === "string" ? raw.number : "", 80);
+  const maxNumberLength = barcodeType === "QR" ? 512 : 120;
+  const normalizedNumber = sanitizeText(
+    typeof raw.number === "string" ? raw.number : "",
+    maxNumberLength
+  );
   if (!normalizedNumber) {
     return null;
   }

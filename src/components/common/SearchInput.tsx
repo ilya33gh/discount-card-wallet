@@ -1,5 +1,5 @@
+import { IconSearch } from "@tabler/icons-react";
 import styles from "./SearchInput.module.css";
-import searchIcon from "../../assets/icons/search.svg";
 
 interface SearchInputProps {
   value: string;
@@ -9,7 +9,7 @@ interface SearchInputProps {
 
 export const SearchInput = ({ value, onChange, placeholder }: SearchInputProps) => (
   <label className={styles.wrap}>
-    <img src={searchIcon} className={styles.icon} aria-hidden="true" alt="" />
+    <IconSearch size={20} stroke={2} className={styles.icon} aria-hidden="true" />
     <input
       type="search"
       placeholder={placeholder}
@@ -18,6 +18,7 @@ export const SearchInput = ({ value, onChange, placeholder }: SearchInputProps) 
       onChange={(event) => onChange(event.target.value)}
       autoCapitalize="off"
       autoCorrect="off"
+      aria-label={placeholder}
     />
   </label>
 );

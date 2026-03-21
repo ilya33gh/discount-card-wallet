@@ -1,7 +1,34 @@
-import { z } from "zod";
+﻿import { z } from "zod";
 
-const BARCODE_TYPES = ["EAN13", "CODE128", "QR"] as const;
-const CARD_COLORS = ["blue", "green", "orange", "purple", "gray"] as const;
+const BARCODE_TYPES = [
+  "EAN13",
+  "EAN8",
+  "UPC",
+  "CODE128",
+  "CODE39",
+  "ITF14",
+  "CODABAR",
+  "QR"
+] as const;
+
+const CARD_COLORS = [
+  "blue",
+  "sky",
+  "teal",
+  "mint",
+  "green",
+  "lime",
+  "yellow",
+  "amber",
+  "orange",
+  "red",
+  "pink",
+  "purple",
+  "indigo",
+  "brown",
+  "gray"
+] as const;
+
 const CARD_CATEGORIES = [
   "grocery",
   "pharmacy",

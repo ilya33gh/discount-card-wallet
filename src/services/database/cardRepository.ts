@@ -11,6 +11,8 @@ const byRecentUpdate = (a: Card, b: Card): number => b.updatedAt - a.updatedAt;
 
 const withUsageDefaults = (card: Card): Card => ({
   ...card,
+  cardColor: normalizeCardColor(card.cardColor),
+  category: normalizeCardCategory(card.category),
   usageCount: typeof card.usageCount === "number" ? card.usageCount : 0,
   lastUsedAt: typeof card.lastUsedAt === "number" ? card.lastUsedAt : null
 });

@@ -1,5 +1,28 @@
-export type BarcodeType = "EAN13" | "CODE128" | "QR";
-export type CardColor = "blue" | "sky" | "teal" | "mint" | "green" | "lime" | "yellow" | "amber" | "orange" | "red" | "pink" | "purple" | "indigo" | "brown" | "gray";
+export type BarcodeType =
+  | "EAN13"
+  | "EAN8"
+  | "UPC"
+  | "CODE128"
+  | "CODE39"
+  | "ITF14"
+  | "CODABAR"
+  | "QR";
+export type CardColor =
+  | "blue"
+  | "sky"
+  | "teal"
+  | "mint"
+  | "green"
+  | "lime"
+  | "yellow"
+  | "amber"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple"
+  | "indigo"
+  | "brown"
+  | "gray";
 export type CardCategory =
   | "grocery"
   | "pharmacy"

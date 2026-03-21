@@ -1,4 +1,4 @@
-import { CardColor } from "../../types/card";
+﻿import { CardColor } from "../../types/card";
 import { ResolvedTheme } from "../../settings/AppSettingsContext";
 
 export interface CardColorOption {
@@ -20,242 +20,103 @@ export interface CardColorOption {
 export const CARD_COLOR_OPTIONS: CardColorOption[] = [
   {
     id: "blue",
-    light: {
-      surface: "#dcebff",
-      border: "#8fc1ff",
-      text: "#0a3470",
-      subtleText: "#2a6cc2"
-    },
-    dark: {
-      surface: "#1b3f6b",
-      border: "#4f8fd1",
-      text: "#eef6ff",
-      subtleText: "#cde3ff"
-    }
+    light: { surface: "#e5eeff", border: "#7ea5ff", text: "#123f9a", subtleText: "#2d5fbe" },
+    dark: { surface: "#1d3a74", border: "#5f8fff", text: "#edf3ff", subtleText: "#cddfff" }
   },
   {
     id: "sky",
-    light: {
-      surface: "#e0f4ff",
-      border: "#9ad8ff",
-      text: "#0b4b6e",
-      subtleText: "#2a7fb0"
-    },
-    dark: {
-      surface: "#1a455a",
-      border: "#4aa3c8",
-      text: "#e9f8ff",
-      subtleText: "#bfe9ff"
-    }
+    light: { surface: "#e6f6ff", border: "#6fc8ff", text: "#0b537c", subtleText: "#247aaa" },
+    dark: { surface: "#145274", border: "#54b7f6", text: "#e6f7ff", subtleText: "#bce7ff" }
   },
   {
     id: "teal",
-    light: {
-      surface: "#e2faf6",
-      border: "#96e3d7",
-      text: "#0f4c45",
-      subtleText: "#2c7b72"
-    },
-    dark: {
-      surface: "#184a44",
-      border: "#3f8f86",
-      text: "#e8fbf7",
-      subtleText: "#bdebe2"
-    }
+    light: { surface: "#e5fffa", border: "#51d9c3", text: "#0a5f54", subtleText: "#288478" },
+    dark: { surface: "#14685e", border: "#3fc7b1", text: "#e7fff9", subtleText: "#bdf3e8" }
   },
   {
     id: "mint",
-    light: {
-      surface: "#e6fde9",
-      border: "#9ee9b0",
-      text: "#145130",
-      subtleText: "#2e7b48"
-    },
-    dark: {
-      surface: "#1c4b32",
-      border: "#4f9a69",
-      text: "#ecfdf1",
-      subtleText: "#c9f1d7"
-    }
+    light: { surface: "#e8fff1", border: "#68df96", text: "#0f6539", subtleText: "#2f8d5b" },
+    dark: { surface: "#15623a", border: "#4fc17b", text: "#ebfff2", subtleText: "#c7f7d7" }
   },
   {
     id: "green",
-    light: {
-      surface: "#e0f9ea",
-      border: "#8fdfad",
-      text: "#134a2a",
-      subtleText: "#2f7f52"
-    },
-    dark: {
-      surface: "#1d4b35",
-      border: "#4a996e",
-      text: "#ebfbf2",
-      subtleText: "#c5f0d5"
-    }
+    light: { surface: "#e7fce9", border: "#65cf6b", text: "#1c6219", subtleText: "#3c8a3b" },
+    dark: { surface: "#2a6421", border: "#56b258", text: "#efffed", subtleText: "#ccf2c7" }
   },
   {
     id: "lime",
-    light: {
-      surface: "#f0ffd9",
-      border: "#c8ef7a",
-      text: "#486100",
-      subtleText: "#6f8b1a"
-    },
-    dark: {
-      surface: "#3f4f1a",
-      border: "#8db343",
-      text: "#f1f8d8",
-      subtleText: "#d9f2a3"
-    }
+    light: { surface: "#f4ffd8", border: "#b8de3c", text: "#4f6404", subtleText: "#6f890f" },
+    dark: { surface: "#566517", border: "#9fbc3d", text: "#f6ffd8", subtleText: "#deef9f" }
   },
   {
     id: "yellow",
-    light: {
-      surface: "#fff6cc",
-      border: "#ffd36b",
-      text: "#6a4a00",
-      subtleText: "#a06b00"
-    },
-    dark: {
-      surface: "#5a4512",
-      border: "#c9a133",
-      text: "#fff5d6",
-      subtleText: "#ffe1a0"
-    }
+    light: { surface: "#fff8cc", border: "#ffd43f", text: "#6a4c00", subtleText: "#946800" },
+    dark: { surface: "#6a5312", border: "#d8ae2f", text: "#fff6d4", subtleText: "#ffe5a2" }
   },
   {
     id: "amber",
-    light: {
-      surface: "#ffefcf",
-      border: "#ffc36b",
-      text: "#6f3c00",
-      subtleText: "#a96500"
-    },
-    dark: {
-      surface: "#5b3b14",
-      border: "#c98a2f",
-      text: "#fff0d8",
-      subtleText: "#ffd2a3"
-    }
+    light: { surface: "#fff1cc", border: "#ffbe4d", text: "#703f00", subtleText: "#985d00" },
+    dark: { surface: "#6d4315", border: "#d48b2e", text: "#fff0da", subtleText: "#ffd29f" }
   },
   {
     id: "orange",
-    light: {
-      surface: "#ffe8d9",
-      border: "#ffb673",
-      text: "#6b2f0b",
-      subtleText: "#b35b2a"
-    },
-    dark: {
-      surface: "#6a351b",
-      border: "#b66834",
-      text: "#fff0e6",
-      subtleText: "#ffd2b1"
-    }
+    light: { surface: "#ffe9db", border: "#ff9a53", text: "#7a3100", subtleText: "#b15719" },
+    dark: { surface: "#7a3913", border: "#db7836", text: "#fff0e7", subtleText: "#ffd1b6" }
   },
   {
     id: "red",
-    light: {
-      surface: "#ffe1e5",
-      border: "#ff9fb0",
-      text: "#7a1020",
-      subtleText: "#b13a4c"
-    },
-    dark: {
-      surface: "#5b1e27",
-      border: "#c44a5e",
-      text: "#ffe9ee",
-      subtleText: "#f2b6c4"
-    }
+    light: { surface: "#ffe2e4", border: "#ff7c87", text: "#8b1c2b", subtleText: "#b53c4b" },
+    dark: { surface: "#7a1f2b", border: "#d65462", text: "#ffecef", subtleText: "#ffc4cb" }
   },
   {
     id: "pink",
-    light: {
-      surface: "#ffe6f3",
-      border: "#ffadd9",
-      text: "#7a1a4b",
-      subtleText: "#b33b74"
-    },
-    dark: {
-      surface: "#5a213b",
-      border: "#c05286",
-      text: "#ffeaf5",
-      subtleText: "#f7b6db"
-    }
+    light: { surface: "#ffe5f3", border: "#ff83cb", text: "#8a1e5a", subtleText: "#ba3f7d" },
+    dark: { surface: "#712649", border: "#d85f9c", text: "#ffeaf5", subtleText: "#ffc9e1" }
   },
   {
     id: "purple",
-    light: {
-      surface: "#efe6ff",
-      border: "#c6a8ff",
-      text: "#4b2c85",
-      subtleText: "#7a55bf"
-    },
-    dark: {
-      surface: "#45316b",
-      border: "#7a5db0",
-      text: "#f6efff",
-      subtleText: "#e0cffc"
-    }
+    light: { surface: "#f1e7ff", border: "#b48cff", text: "#5427a7", subtleText: "#7a4ac8" },
+    dark: { surface: "#4b2a7b", border: "#8b63de", text: "#f6efff", subtleText: "#dccbff" }
   },
   {
     id: "indigo",
-    light: {
-      surface: "#e7e9ff",
-      border: "#b2b8ff",
-      text: "#2d3b7a",
-      subtleText: "#4c5bb3"
-    },
-    dark: {
-      surface: "#2a315a",
-      border: "#5c6bc7",
-      text: "#eef0ff",
-      subtleText: "#c8cdfc"
-    }
+    light: { surface: "#e8ebff", border: "#8f9eff", text: "#2b3d8f", subtleText: "#4b5dbf" },
+    dark: { surface: "#283c80", border: "#6479db", text: "#edf1ff", subtleText: "#cad3ff" }
   },
   {
     id: "brown",
-    light: {
-      surface: "#f4e9df",
-      border: "#d9b89a",
-      text: "#5b3a22",
-      subtleText: "#8b5c3b"
-    },
-    dark: {
-      surface: "#4a3222",
-      border: "#9a6c4b",
-      text: "#f8efe7",
-      subtleText: "#e7cbb2"
-    }
+    light: { surface: "#f5e8dd", border: "#d0a47f", text: "#5d3920", subtleText: "#8b5c3d" },
+    dark: { surface: "#5b3a24", border: "#a0714a", text: "#f8efe8", subtleText: "#e8ccb7" }
   },
   {
     id: "gray",
-    light: {
-      surface: "#f4f5f8",
-      border: "#c0c5d1",
-      text: "#1b1d20",
-      subtleText: "#5a5f6c"
-    },
-    dark: {
-      surface: "#3f424a",
-      border: "#7a808f",
-      text: "#ffffff",
-      subtleText: "#d7dde7"
-    }
+    light: { surface: "#edf1f7", border: "#b0bdd0", text: "#253246", subtleText: "#4f617b" },
+    dark: { surface: "#354153", border: "#6b7f9a", text: "#f0f4fa", subtleText: "#cbd7e8" }
   }
 ];
 
 const colorMap = new Map(CARD_COLOR_OPTIONS.map((color) => [color.id, color]));
 
+const LEGACY_COLOR_MAP: Record<string, CardColor> = {
+  neutral: "gray"
+};
+
 export const DEFAULT_CARD_COLOR: CardColor = "blue";
 
-export const getCardColorOption = (
-  color: CardColor | undefined,
-  theme: ResolvedTheme
-) => {
+export const getCardColorOption = (color: CardColor | undefined, theme: ResolvedTheme) => {
   const selected = colorMap.get(color ?? DEFAULT_CARD_COLOR) ?? colorMap.get(DEFAULT_CARD_COLOR)!;
   return selected[theme];
 };
 
-export const normalizeCardColor = (color: string | undefined): CardColor =>
-  colorMap.has(color as CardColor) ? (color as CardColor) : DEFAULT_CARD_COLOR;
+export const normalizeCardColor = (color: string | undefined): CardColor => {
+  if (!color) {
+    return DEFAULT_CARD_COLOR;
+  }
+  if (colorMap.has(color as CardColor)) {
+    return color as CardColor;
+  }
+  if (LEGACY_COLOR_MAP[color]) {
+    return LEGACY_COLOR_MAP[color];
+  }
+  return DEFAULT_CARD_COLOR;
+};

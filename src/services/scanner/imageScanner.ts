@@ -32,7 +32,12 @@ const createReader = (): BrowserMultiFormatReader => {
   const hints = new Map();
   hints.set(DecodeHintType.POSSIBLE_FORMATS, [
     BarcodeFormat.EAN_13,
+    BarcodeFormat.EAN_8,
+    BarcodeFormat.UPC_A,
     BarcodeFormat.CODE_128,
+    BarcodeFormat.CODE_39,
+    BarcodeFormat.ITF,
+    BarcodeFormat.CODABAR,
     BarcodeFormat.QR_CODE
   ]);
   hints.set(DecodeHintType.TRY_HARDER, true);
@@ -57,7 +62,7 @@ const tryNativeBarcodeDetector = async (
   }
 
   const detector = new detectorCtor({
-    formats: ["ean_13", "code_128", "qr_code"]
+    formats: ["ean_13", "ean_8", "upc_a", "code_128", "code_39", "itf", "codabar", "qr_code"]
   });
 
   try {
@@ -173,7 +178,15 @@ const decodeWithQuagga = async (canvas: HTMLCanvasElement): Promise<FileScanResu
           size: 1200
         },
         decoder: {
-          readers: ["ean_reader", "code_128_reader"]
+          readers: [
+            "ean_reader",
+            "ean_8_reader",
+            "upc_reader",
+            "code_128_reader",
+            "code_39_reader",
+            "codabar_reader",
+            "i2of5_reader"
+          ]
         }
       },
       (result: any) => {

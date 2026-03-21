@@ -1,13 +1,21 @@
 .page {
-  display: grid;
-  gap: 16px;
-  background: var(--surface-0);
-  border: 1px solid var(--line-soft);
-  border-radius: 22px;
-  padding: 16px;
-  box-shadow: var(--shadow-soft);
+  width: 100%;
   min-width: 0;
-  animation: fade-in 0.22s ease-out;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.content {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  gap: var(--space-4);
+  border-radius: var(--radius-20);
+  border: 1px solid var(--border-soft);
+  background: var(--surface-1);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  animation: fade-in var(--motion-medium) ease;
 }
 
 @keyframes fade-in {

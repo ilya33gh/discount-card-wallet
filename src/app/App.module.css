@@ -1,75 +1,102 @@
 .appShell {
   min-height: 100dvh;
-  max-width: 860px;
+  width: min(960px, 100%);
   margin: 0 auto;
-  padding-top: calc(var(--safe-top) + 10px);
-  padding-right: max(var(--safe-right), 16px);
-  padding-bottom: calc(var(--safe-bottom) + 14px);
-  padding-left: max(var(--safe-left), 16px);
+  padding-top: calc(var(--safe-top) + var(--space-3));
+  padding-right: max(calc(var(--safe-right) + var(--space-4)), var(--space-4));
+  padding-bottom: calc(var(--safe-bottom) + var(--space-4));
+  padding-left: max(calc(var(--safe-left) + var(--space-4)), var(--space-4));
   display: grid;
-  gap: 12px;
   align-content: start;
+  gap: var(--space-4);
   overflow-x: clip;
 }
 
-.updateBanner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  border: 1px solid var(--line-soft);
-  background: var(--surface-1);
-  border-radius: 14px;
-  padding: 10px 12px;
-  box-shadow: var(--shadow-soft);
-}
-
+.updateBanner,
 .installBanner {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  border: 1px solid var(--line-soft);
+  gap: var(--space-3);
+  border: 1px solid var(--border-soft);
   background: var(--surface-1);
-  border-radius: 14px;
-  padding: 10px 12px;
-  box-shadow: var(--shadow-soft);
+  border-radius: var(--radius-16);
+  padding: var(--space-3) var(--space-4);
 }
 
 .updateText {
   margin: 0;
   color: var(--text-secondary);
-  font-size: 0.86rem;
+  font-size: var(--font-13);
+  font-weight: 500;
+}
+
+.updateButton,
+.installButton {
+  min-height: 40px;
+  border-radius: var(--radius-10);
+  border: 1px solid var(--accent);
+  padding: 0 var(--space-3);
+  font-size: var(--font-13);
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.installActions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
 }
 
 .updateButton {
-  border: 1px solid var(--accent);
   background: var(--surface-2);
-  color: var(--text-primary);
-  border-radius: 10px;
-  padding: 8px 10px;
-  font-size: 0.84rem;
-  font-weight: 650;
+  color: var(--accent-text);
 }
 
 .installButton {
-  border: 1px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 14%, var(--surface-2));
-  color: var(--text-primary);
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 0.84rem;
-  font-weight: 700;
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.dismissButton {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-10);
+  border: 1px solid var(--border-soft);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading {
-  min-height: 52dvh;
-  border: 1px solid var(--line-soft);
-  border-radius: 20px;
-  background: var(--surface-0);
-  box-shadow: var(--shadow-soft);
+  min-height: 48dvh;
+  border-radius: var(--radius-20);
+  border: 1px solid var(--border-soft);
+  background: var(--surface-1);
+  color: var(--text-muted);
   display: grid;
   place-items: center;
-  color: var(--muted-text);
+  font-size: var(--font-14);
+}
+
+@media (max-width: 520px) {
+  .updateBanner,
+  .installBanner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .installActions {
+    width: 100%;
+  }
+
+  .updateButton,
+  .installButton {
+    width: auto;
+  }
 }

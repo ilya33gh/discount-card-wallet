@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCard } from "../hooks/useCards";
 import { ScreenHeader } from "../components/common/ScreenHeader";
@@ -6,8 +7,6 @@ import { CardViewer } from "../components/cards/CardViewer";
 import { CardDetailSkeleton } from "../components/common/Skeleton";
 import { cardService } from "../services/cards/cardService";
 import { useI18n } from "../i18n/useI18n";
-import editIcon from "../assets/icons/edit.svg";
-import deleteIcon from "../assets/icons/delete.svg";
 import styles from "./CardDetailPage.module.css";
 
 const CardDetailPage = () => {
@@ -45,16 +44,15 @@ const CardDetailPage = () => {
 
   return (
     <section className={styles.page}>
-      <ScreenHeader
-        title={t.detail.checkout}
-        backTo="/"
-        backLabel={t.common.back}
-        centerTitle
-      />
+      <ScreenHeader title={t.detail.checkout} backTo="/" backLabel={t.common.back} centerTitle />
       <CardViewer card={card} />
       <div className={styles.actions}>
-        <button type="button" className={styles.actionButton} onClick={() => navigate(`/cards/${card.id}/edit`)}>
-          <img src={editIcon} className={styles.actionIcon} aria-hidden="true" alt="" />
+        <button
+          type="button"
+          className={styles.actionButton}
+          onClick={() => navigate(`/cards/${card.id}/edit`)}
+        >
+          <IconEdit size={20} stroke={2} aria-hidden="true" />
           {t.common.edit}
         </button>
         <button
@@ -68,7 +66,7 @@ const CardDetailPage = () => {
             navigate("/");
           }}
         >
-          <img src={deleteIcon} className={styles.actionIcon} aria-hidden="true" alt="" />
+          <IconTrash size={20} stroke={2} aria-hidden="true" />
           {t.common.delete}
         </button>
       </div>

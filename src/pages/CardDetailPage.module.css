@@ -1,58 +1,53 @@
-.page {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 26px);
-  padding-top: 4px;
-  padding-bottom: calc(env(safe-area-inset-bottom) + 74px);
+﻿.page {
+  width: 100%;
   min-width: 0;
-  overflow: hidden;
+  min-height: calc(100dvh - var(--safe-top) - var(--safe-bottom));
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+  padding-bottom: calc(var(--safe-bottom) + 84px);
 }
 
 .actions {
   position: fixed;
   left: 50%;
-  bottom: calc(env(safe-area-inset-bottom) + 8px);
   transform: translateX(-50%);
-  width: min(
-    calc(100vw - max(var(--safe-left), 16px) - max(var(--safe-right), 16px)),
-    828px
-  );
+  bottom: calc(var(--safe-bottom) + var(--space-2));
+  width: min(920px, calc(100vw - var(--space-4) * 2));
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: var(--space-2);
   z-index: 40;
 }
 
 .actionButton {
-  border: 1px solid var(--line-soft);
-  border-radius: 14px;
-  background: var(--surface-2);
-  color: var(--text-primary);
-  padding: 12px;
-  font-weight: 650;
+  min-height: 44px;
+  border-radius: var(--radius-12);
+  border: 1px solid var(--border-soft);
+  background: var(--surface-1);
+  color: var(--text-secondary);
+  padding: 0 var(--space-3);
+  font-size: var(--font-14);
+  font-weight: 500;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.16s ease, border-color 0.16s ease;
+  box-shadow: var(--shadow-sm);
 }
 
-.actionButton:active {
-  transform: scale(0.98);
+.actionButton:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
 }
 
 .deleteButton {
-  border-color: var(--danger);
   color: var(--danger);
+  border-color: var(--danger);
 }
 
 .status {
-  color: var(--muted-text);
-}
-
-.actionIcon {
-  width: 18px;
-  height: 18px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--font-14);
 }

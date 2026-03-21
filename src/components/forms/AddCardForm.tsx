@@ -1,13 +1,16 @@
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+﻿import { ChangeEvent, FormEvent, useId, useRef, useState } from "react";
+import { IconDeviceFloppy, IconScan } from "@tabler/icons-react";
 import { BarcodeType, CardCreateInput } from "../../types/card";
 import {
   BARCODE_TYPES,
+  isNumericBarcodeType,
   normalizeBarcodeNumber
 } from "../../services/barcode/barcodeService";
 import { validateCardInput } from "../../utils/validation";
 import {
   CARD_COLOR_OPTIONS,
-  DEFAULT_CARD_COLOR
+  DEFAULT_CARD_COLOR,
+  getCardColorOption
 } from "../../services/cards/cardColors";
 import {
   CARD_CATEGORY_OPTIONS,
@@ -16,8 +19,6 @@ import {
 import { useI18n } from "../../i18n/useI18n";
 import { useAppSettings } from "../../settings/AppSettingsContext";
 import { scanBarcodeFromFile } from "../../services/scanner/imageScanner";
-import cameraIcon from "../../assets/icons/camera.svg";
-import saveIcon from "../../assets/icons/save.svg";
 import styles from "./AddCardForm.module.css";
 
 interface AddCardFormProps {
@@ -54,6 +55,37 @@ export const AddCardForm = ({
   const [isSaving, setIsSaving] = useState(false);
 
   const scanInputRef = useRef<HTMLInputElement | null>(null);
+  const idPrefix = useId();
+
+  const previewPalette = getCardColorOption(values.cardColor ?? DEFAULT_CARD_COLOR, resolvedTheme);
+  const previewName = values.name.trim() || t.form.previewName;
+  const previewNumber = values.number.trim() || t.form.previewNumber;
+  const isNumericInput = isNumericBarcodeType(values.barcodeType);
+
+  const getNumberErrorByCode = (
+    errorCode: ReturnType<typeof normalizeBarcodeNumber>["errorCode"]
+  ): string | null => {
+    switch (errorCode) {
+      case "ean_digits":
+        return t.validation.eanDigits;
+      case "ean_checksum":
+        return t.validation.eanChecksum;
+      case "ean8_digits":
+        return t.validation.ean8Digits;
+      case "ean8_checksum":
+        return t.validation.ean8Checksum;
+      case "upc_digits":
+        return t.validation.upcDigits;
+      case "upc_checksum":
+        return t.validation.upcChecksum;
+      case "itf14_digits":
+        return t.validation.itf14Digits;
+      case "itf14_checksum":
+        return t.validation.itf14Checksum;
+      default:
+        return null;
+    }
+  };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -71,12 +103,9 @@ export const AddCardForm = ({
     }
 
     const normalizedNumber = normalizeBarcodeNumber(values.number, values.barcodeType);
-    if (normalizedNumber.errorCode === "ean_digits") {
-      setErrors({ number: t.validation.eanDigits });
-      return;
-    }
-    if (normalizedNumber.errorCode === "ean_checksum") {
-      setErrors({ number: t.validation.eanChecksum });
+    const errorText = getNumberErrorByCode(normalizedNumber.errorCode);
+    if (errorText) {
+      setErrors({ number: errorText });
       return;
     }
 
@@ -105,12 +134,9 @@ export const AddCardForm = ({
       const detected = await scanBarcodeFromFile(file);
       const normalized = normalizeBarcodeNumber(detected.number, detected.barcodeType);
 
-      if (normalized.errorCode === "ean_digits") {
-        setScanError(t.validation.eanDigits);
-        return;
-      }
-      if (normalized.errorCode === "ean_checksum") {
-        setScanError(t.validation.eanChecksum);
+      const errorText = getNumberErrorByCode(normalized.errorCode);
+      if (errorText) {
+        setScanError(errorText);
         return;
       }
 
@@ -138,101 +164,135 @@ export const AddCardForm = ({
         aria-hidden="true"
       />
 
-      <label className={styles.field}>
+      <section className={styles.preview} aria-label={t.form.preview}>
+        <p className={styles.previewLabel}>{t.form.preview}</p>
+        <div
+          className={styles.previewCard}
+          style={{
+            background: previewPalette.surface,
+            borderColor: previewPalette.border,
+            color: previewPalette.text
+          }}
+        >
+          <p className={styles.previewName}>{previewName}</p>
+          <p className={styles.previewNumber} style={{ color: previewPalette.subtleText }}>
+            {previewNumber}
+          </p>
+          <p className={styles.previewMeta} style={{ color: previewPalette.subtleText }}>
+            {t.form.categories[values.category ?? DEFAULT_CARD_CATEGORY]} / {values.barcodeType}
+          </p>
+        </div>
+      </section>
+
+      <label className={styles.field} htmlFor={`${idPrefix}-name`}>
         <span className={styles.label}>{t.form.storeName}</span>
         <input
+          id={`${idPrefix}-name`}
           className={styles.input}
           type="text"
           value={values.name}
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, name: event.target.value }))
-          }
+          onChange={(event) => setValues((prev) => ({ ...prev, name: event.target.value }))}
           aria-required="true"
+          aria-invalid={Boolean(errors.name)}
         />
         {errors.name ? <span className={styles.error}>{errors.name}</span> : null}
       </label>
 
-      <label className={styles.field}>
+      <label className={styles.field} htmlFor={`${idPrefix}-number`}>
         <span className={styles.label}>{t.form.cardNumber}</span>
         <input
+          id={`${idPrefix}-number`}
           className={styles.input}
           type="text"
-          inputMode="numeric"
+          inputMode={isNumericInput ? "numeric" : "text"}
           value={values.number}
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, number: event.target.value }))
-          }
+          onChange={(event) => setValues((prev) => ({ ...prev, number: event.target.value }))}
           aria-required="true"
+          aria-invalid={Boolean(errors.number)}
         />
         {errors.number ? <span className={styles.error}>{errors.number}</span> : null}
       </label>
 
-      <label className={styles.field}>
-        <span className={styles.label}>{t.form.barcodeType}</span>
-        <select
-          className={styles.select}
-          value={values.barcodeType}
-          onChange={(event) =>
-            setValues((prev) => ({
-              ...prev,
-              barcodeType: event.target.value as BarcodeType
-            }))
-          }
-        >
-          {BARCODE_TYPES.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-      </label>
+      <div className={styles.fieldGrid}>
+        <label className={styles.field} htmlFor={`${idPrefix}-barcode`}>
+          <span className={styles.label}>{t.form.barcodeType}</span>
+          <select
+            id={`${idPrefix}-barcode`}
+            className={styles.select}
+            value={values.barcodeType}
+            onChange={(event) =>
+              setValues((prev) => ({
+                ...prev,
+                barcodeType: event.target.value as BarcodeType
+              }))
+            }
+          >
+            {BARCODE_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </label>
 
-      <label className={styles.field}>
-        <span className={styles.label}>{t.form.category}</span>
-        <select
-          className={styles.select}
-          value={values.category ?? DEFAULT_CARD_CATEGORY}
-          onChange={(event) =>
-            setValues((prev) => ({
-              ...prev,
-              category: event.target.value as CardCreateInput["category"]
-            }))
-          }
-        >
-          {CARD_CATEGORY_OPTIONS.map((category) => (
-            <option key={category} value={category}>
-              {t.form.categories[category]}
-            </option>
-          ))}
-        </select>
-      </label>
+        <label className={styles.field} htmlFor={`${idPrefix}-category`}>
+          <span className={styles.label}>{t.form.category}</span>
+          <select
+            id={`${idPrefix}-category`}
+            className={styles.select}
+            value={values.category ?? DEFAULT_CARD_CATEGORY}
+            onChange={(event) =>
+              setValues((prev) => ({
+                ...prev,
+                category: event.target.value as CardCreateInput["category"]
+              }))
+            }
+          >
+            {CARD_CATEGORY_OPTIONS.map((category) => (
+              <option key={category} value={category}>
+                {t.form.categories[category]}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
 
-      <label className={styles.field}>
+      <label className={styles.field} htmlFor={`${idPrefix}-notes`}>
         <span className={styles.label}>{t.form.notes}</span>
         <textarea
+          id={`${idPrefix}-notes`}
           className={styles.textarea}
           value={values.notes}
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, notes: event.target.value }))
-          }
+          onChange={(event) => setValues((prev) => ({ ...prev, notes: event.target.value }))}
           placeholder={t.form.notesPlaceholder}
         />
       </label>
 
       <div className={styles.field}>
         <span className={styles.label}>{t.form.color}</span>
-        <div className={styles.colorGrid}>
+        <div className={styles.colorGrid} role="radiogroup" aria-label={t.form.color}>
           {CARD_COLOR_OPTIONS.map((color) => {
             const isActive = values.cardColor === color.id;
+            const swatch = color[resolvedTheme];
             return (
               <button
                 type="button"
                 key={color.id}
                 className={`${styles.colorButton} ${isActive ? styles.colorButtonActive : ""}`}
-                style={{ background: color[resolvedTheme].surface }}
                 aria-label={t.form.colors[color.id]}
+                aria-pressed={isActive}
                 onClick={() => setValues((prev) => ({ ...prev, cardColor: color.id }))}
-              />
+              >
+                <span
+                  className={styles.colorSwatch}
+                  style={{
+                    background: swatch.surface,
+                    borderColor: swatch.border
+                  }}
+                  aria-hidden="true"
+                />
+                <span>{t.form.colors[color.id]}</span>
+              </button>
             );
           })}
         </div>
@@ -242,11 +302,9 @@ export const AddCardForm = ({
         <input
           type="checkbox"
           checked={Boolean(values.favorite)}
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, favorite: event.target.checked }))
-          }
+          onChange={(event) => setValues((prev) => ({ ...prev, favorite: event.target.checked }))}
         />
-        {t.form.favorite}
+        <span>{t.form.favorite}</span>
       </label>
 
       <div className={styles.actions}>
@@ -255,16 +313,25 @@ export const AddCardForm = ({
           className={styles.buttonSecondary}
           onClick={() => scanInputRef.current?.click()}
         >
-          <img src={cameraIcon} className={styles.buttonIcon} aria-hidden="true" alt="" />
+          <IconScan size={20} stroke={2} aria-hidden="true" />
           {t.form.scan}
         </button>
         <button type="submit" className={styles.button} disabled={isSaving}>
-          <img src={saveIcon} className={styles.buttonIcon} aria-hidden="true" alt="" />
+          <IconDeviceFloppy size={20} stroke={2} aria-hidden="true" />
           {isSaving ? t.form.saving : submitLabel}
         </button>
       </div>
-      {scanError ? <p className={styles.scanError}>{scanError}</p> : null}
-      {submitError ? <p className={styles.submitError}>{submitError}</p> : null}
+
+      {scanError ? (
+        <p className={styles.scanError} role="alert">
+          {scanError}
+        </p>
+      ) : null}
+      {submitError ? (
+        <p className={styles.submitError} role="alert">
+          {submitError}
+        </p>
+      ) : null}
     </form>
   );
 };

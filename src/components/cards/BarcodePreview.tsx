@@ -1,6 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { Card } from "../../types/card";
-import { createQrSvg, renderLinearBarcode } from "../../services/barcode/barcodeService";
+import {
+  createQrSvg,
+  getRenderableBarcodeNumber,
+  isLinearBarcodeType,
+  renderLinearBarcode
+} from "../../services/barcode/barcodeService";
 import styles from "./BarcodePreview.module.css";
 
 interface BarcodePreviewProps {
@@ -19,15 +24,20 @@ export const BarcodePreview = ({ card }: BarcodePreviewProps) => {
       return;
     }
 
-    if (!svgRef.current) {
+    if (!svgRef.current || !isLinearBarcodeType(card.barcodeType)) {
       return;
     }
 
     try {
-      renderLinearBarcode(svgRef.current, card.number, card.barcodeType, {
-        width: 1,
-        height: 30
-      });
+      renderLinearBarcode(
+        svgRef.current,
+        getRenderableBarcodeNumber(card.number, card.barcodeType),
+        card.barcodeType,
+        {
+          width: 1,
+          height: 30
+        }
+      );
     } catch {
       svgRef.current.textContent = "";
     }

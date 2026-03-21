@@ -1,4 +1,4 @@
-import { BarcodeType, CardCreateInput, CardUpdateInput } from "../types/card";
+﻿import { BarcodeType, CardCreateInput, CardUpdateInput } from "../types/card";
 import { normalizeBarcodeNumber } from "../services/barcode/barcodeService";
 
 export interface ValidationResult {
@@ -11,7 +11,15 @@ export interface ValidationMessages {
   numberRequired: string;
   eanDigits: string;
   eanChecksum: string;
+  ean8Digits: string;
+  ean8Checksum: string;
+  upcDigits: string;
+  upcChecksum: string;
+  itf14Digits: string;
+  itf14Checksum: string;
   code128Length: string;
+  code39Length: string;
+  codabarLength: string;
   qrLength: string;
 }
 
@@ -50,17 +58,33 @@ export const validateCardInput = (
 
   if (!number.trim()) {
     errors.number = messages.numberRequired;
-  } else if (barcodeType === "EAN13") {
-    const result = normalizeBarcodeNumber(number, barcodeType);
-    if (result.errorCode === "ean_digits") {
+  } else {
+    const normalized = normalizeBarcodeNumber(number, barcodeType);
+    if (normalized.errorCode === "ean_digits") {
       errors.number = messages.eanDigits;
-    } else if (result.errorCode === "ean_checksum") {
+    } else if (normalized.errorCode === "ean_checksum") {
       errors.number = messages.eanChecksum;
+    } else if (normalized.errorCode === "ean8_digits") {
+      errors.number = messages.ean8Digits;
+    } else if (normalized.errorCode === "ean8_checksum") {
+      errors.number = messages.ean8Checksum;
+    } else if (normalized.errorCode === "upc_digits") {
+      errors.number = messages.upcDigits;
+    } else if (normalized.errorCode === "upc_checksum") {
+      errors.number = messages.upcChecksum;
+    } else if (normalized.errorCode === "itf14_digits") {
+      errors.number = messages.itf14Digits;
+    } else if (normalized.errorCode === "itf14_checksum") {
+      errors.number = messages.itf14Checksum;
+    } else if (barcodeType === "CODE128" && number.length > 80) {
+      errors.number = messages.code128Length;
+    } else if (barcodeType === "CODE39" && number.length > 80) {
+      errors.number = messages.code39Length;
+    } else if (barcodeType === "CODABAR" && number.length > 80) {
+      errors.number = messages.codabarLength;
+    } else if (barcodeType === "QR" && number.length > 512) {
+      errors.number = messages.qrLength;
     }
-  } else if (barcodeType === "CODE128" && number.length > 80) {
-    errors.number = messages.code128Length;
-  } else if (barcodeType === "QR" && number.length > 512) {
-    errors.number = messages.qrLength;
   }
 
   return {

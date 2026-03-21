@@ -1,11 +1,13 @@
-import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { IconCircleCheckFilled, IconCircleXFilled, IconLoader2 } from "@tabler/icons-react";
 import { ScreenHeader } from "../components/common/ScreenHeader";
 import { useI18n } from "../i18n/useI18n";
 import {
+  ACCENT_COLOR_OPTIONS,
+  ACCENT_COLOR_SWATCH,
+  AccentColor,
   LocaleMode,
-  THEME_PRESET_OPTIONS,
   ThemeMode,
-  ThemePreset,
   useAppSettings
 } from "../settings/AppSettingsContext";
 import { accountService } from "../services/sync/accountService";
@@ -20,7 +22,8 @@ type ServerStatus = "checking" | "online" | "offline";
 
 const SettingsPage = () => {
   const { t, locale } = useI18n();
-  const { localeMode, themeMode, setLocaleMode, setThemeMode } = useAppSettings();
+  const { localeMode, themeMode, accentColor, setLocaleMode, setThemeMode, setAccentColor } =
+    useAppSettings();
   const [session, setSession] = useState<SyncSession | null>(() => accountService.getSession());
   const [serverUrl, setServerUrl] = useState(() => syncStorage.getServerUrl());
   const [email, setEmail] = useState("");
@@ -77,16 +80,6 @@ const SettingsPage = () => {
     })();
   }, [t.settings.syncStatusSignedIn, t.settings.syncStatusSignedOut]);
 
-  const themeLabels: Record<ThemePreset, string> = {
-    "vscode-dark": t.settings.themeVsCodeDark,
-    "vscode-light": t.settings.themeVsCodeLight,
-    oled: t.settings.themeOled,
-    dracula: t.settings.themeDracula,
-    monokai: t.settings.themeMonokai,
-    "solarized-dark": t.settings.themeSolarizedDark,
-    "github-light": t.settings.themeGithubLight
-  };
-
   const accountStatus = useMemo(
     () =>
       session
@@ -108,9 +101,7 @@ const SettingsPage = () => {
       case "success":
         return t.settings.syncStateSuccess;
       case "error":
-        return `${t.settings.syncStateError}${
-          syncState.lastError ? `: ${syncState.lastError}` : ""
-        }`;
+        return `${t.settings.syncStateError}${syncState.lastError ? `: ${syncState.lastError}` : ""}`;
       default:
         return t.settings.syncStateIdle;
     }
@@ -226,13 +217,33 @@ const SettingsPage = () => {
     }
   };
 
+  const themeOptions: { value: ThemeMode; label: string }[] = [
+    { value: "system", label: t.settings.themeSystem },
+    { value: "light", label: t.settings.themeLight },
+    { value: "dark", label: t.settings.themeDark },
+    { value: "oled", label: t.settings.themeOled }
+  ];
+
+  const accentLabels: Record<AccentColor, string> = {
+    blue: t.settings.accentBlue,
+    cyan: t.settings.accentCyan,
+    teal: t.settings.accentTeal,
+    violet: t.settings.accentViolet,
+    green: t.settings.accentGreen,
+    lime: t.settings.accentLime,
+    yellow: t.settings.accentYellow,
+    orange: t.settings.accentOrange,
+    red: t.settings.accentRed,
+    pink: t.settings.accentPink
+  };
+
   return (
     <section className={styles.page}>
       <ScreenHeader title={t.settings.title} backTo="/" backLabel={t.common.back} />
 
-      <div className={styles.section}>
-        <p className={styles.label}>{t.settings.language}</p>
-        <div className={styles.row}>
+      <section className={styles.section}>
+        <h2 className={styles.label}>{t.settings.language}</h2>
+        <div className={styles.optionGrid}>
           {[
             { value: "system" as LocaleMode, label: t.settings.languageSystem },
             { value: "en" as LocaleMode, label: t.settings.languageEnglish },
@@ -249,51 +260,57 @@ const SettingsPage = () => {
             </button>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className={styles.section}>
-        <p className={styles.label}>{t.settings.theme}</p>
-        <div className={styles.themeRow}>
-          <button
-            type="button"
-            className={`${styles.option} ${themeMode === "system" ? styles.optionActive : ""}`}
-            onClick={() => setThemeMode("system")}
-          >
-            {t.settings.themeSystem}
-          </button>
-
-          {THEME_PRESET_OPTIONS.map((preset) => {
-            const value = preset as ThemeMode;
-            return (
-              <button
-                key={preset}
-                type="button"
-                className={`${styles.option} ${themeMode === value ? styles.optionActive : ""}`}
-                onClick={() => setThemeMode(value)}
-              >
-                {themeLabels[preset]}
-              </button>
-            );
-          })}
+      <section className={styles.section}>
+        <h2 className={styles.label}>{t.settings.theme}</h2>
+        <div className={styles.optionGrid}>
+          {themeOptions.map((item) => (
+            <button
+              key={item.value}
+              type="button"
+              className={`${styles.option} ${themeMode === item.value ? styles.optionActive : ""}`}
+              onClick={() => setThemeMode(item.value)}
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
-      </div>
 
-      <div className={styles.section}>
-        <p className={styles.label}>{t.settings.sync}</p>
+        <h3 className={styles.subLabel}>{t.settings.accent}</h3>
+        <div className={`${styles.optionGrid} ${styles.accentGrid}`}>
+          {ACCENT_COLOR_OPTIONS.map((item) => (
+            <button
+              key={item}
+              type="button"
+              className={`${styles.option} ${accentColor === item ? styles.optionActive : ""}`}
+              onClick={() => setAccentColor(item)}
+            >
+              <span
+                className={styles.accentDot}
+                style={{ "--accent-dot": ACCENT_COLOR_SWATCH[item] } as CSSProperties}
+                aria-hidden="true"
+              />
+              {accentLabels[item]}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.label}>{t.settings.sync}</h2>
         <p className={styles.description}>{t.settings.accountHint}</p>
+
         <div className={styles.serverRow}>
-          <span
-            className={`${styles.serverDot} ${
-              serverStatus === "online"
-                ? styles.serverDotOnline
-                : serverStatus === "offline"
-                  ? styles.serverDotOffline
-                  : styles.serverDotChecking
-            }`}
-            aria-hidden="true"
-          />
+          {serverStatus === "online" ? (
+            <IconCircleCheckFilled size={20} className={styles.serverOnline} aria-hidden="true" />
+          ) : serverStatus === "offline" ? (
+            <IconCircleXFilled size={20} className={styles.serverOffline} aria-hidden="true" />
+          ) : (
+            <IconLoader2 size={20} className={styles.serverChecking} aria-hidden="true" />
+          )}
           <p className={styles.statusText}>
-            {t.settings.serverStatus}:{" "}
+            {t.settings.serverStatus}: {" "}
             {serverStatus === "online"
               ? t.settings.serverOnline
               : serverStatus === "offline"
@@ -321,7 +338,7 @@ const SettingsPage = () => {
 
         {session && cloudStats ? (
           <p className={styles.statusText}>
-            {t.settings.cloudCards}:{" "}
+            {t.settings.cloudCards}: {" "}
             {t.settings.cloudCardsValue
               .replace("{count}", String(cloudStats.activeCards))
               .replace("{total}", String(cloudStats.totalCards))}
@@ -332,7 +349,7 @@ const SettingsPage = () => {
         <p className={styles.statusText}>{syncStateLabel}</p>
         {syncState.lastSuccessAt ? (
           <p className={styles.statusText}>
-            {t.settings.lastSync}:{" "}
+            {t.settings.lastSync}: {" "}
             {new Date(syncState.lastSuccessAt).toLocaleString(
               locale === "ru" ? "ru-RU" : locale === "cv" ? "cv-RU" : "en-US"
             )}
@@ -398,11 +415,13 @@ const SettingsPage = () => {
           </form>
         )}
 
-        <p className={styles.statusText}>{statusText}</p>
-      </div>
+        <p className={styles.statusText} role="status" aria-live="polite">
+          {statusText}
+        </p>
+      </section>
 
-      <div className={styles.section}>
-        <p className={styles.label}>{t.settings.backup}</p>
+      <section className={styles.section}>
+        <h2 className={styles.label}>{t.settings.backup}</h2>
         <div className={styles.inlineRow}>
           <button
             type="button"
@@ -430,7 +449,7 @@ const SettingsPage = () => {
             void onImportJson(event);
           }}
         />
-      </div>
+      </section>
     </section>
   );
 };

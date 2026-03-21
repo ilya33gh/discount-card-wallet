@@ -1,10 +1,10 @@
-import { CSSProperties, memo } from "react";
+﻿import { CSSProperties, memo } from "react";
+import { IconStarFilled } from "@tabler/icons-react";
 import { Card } from "../../types/card";
 import { useI18n } from "../../i18n/useI18n";
 import { getCardColorOption } from "../../services/cards/cardColors";
 import { normalizeCardCategory } from "../../services/cards/cardCategories";
 import { useAppSettings } from "../../settings/AppSettingsContext";
-import starIcon from "../../assets/icons/star.svg";
 import styles from "./CardItem.module.css";
 
 interface CardItemProps {
@@ -60,10 +60,10 @@ export const CardItem = memo(
       >
         <button type="button" className={styles.mainButton} onClick={() => onOpen(card.id)}>
           <h2 className={styles.title}>{renderHighlighted(card.name)}</h2>
-          <p className={styles.favoriteTag}>{card.favorite ? t.home.favoriteLabel : " "}</p>
+          <p className={styles.favoriteTag}>{card.favorite ? t.home.favoriteLabel : ""}</p>
           <p className={styles.number}>{renderHighlighted(card.number)}</p>
           <p className={styles.type}>
-            {t.form.categories[category]} · {card.barcodeType}
+            {t.form.categories[category]} / {card.barcodeType}
           </p>
         </button>
         <div className={styles.actions}>
@@ -73,7 +73,7 @@ export const CardItem = memo(
             onClick={() => onFavoriteToggle(card.id, !card.favorite)}
             aria-label={card.favorite ? t.detail.unfavorite : t.detail.favorite}
           >
-            <img src={starIcon} className={styles.starIcon} aria-hidden="true" alt="" />
+            <IconStarFilled size={20} className={styles.starIcon} aria-hidden="true" />
           </button>
         </div>
       </article>

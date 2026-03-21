@@ -1,11 +1,14 @@
-const STATIC_CACHE = "dcw-static-v3";
-const RUNTIME_CACHE = "dcw-runtime-v3";
+const STATIC_CACHE = "dcw-static-v6";
+const RUNTIME_CACHE = "dcw-runtime-v6";
 const APP_SHELL = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
+  "/icons/app-icon.svg",
   "/icons/icon-192.png",
+  "/icons/icon-192-maskable.png",
   "/icons/icon-512.png",
+  "/icons/icon-512-maskable.png",
   "/icons/apple-touch-icon.png"
 ];
 

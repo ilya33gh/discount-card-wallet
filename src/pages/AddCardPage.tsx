@@ -12,13 +12,15 @@ const AddCardPage = () => {
   return (
     <section className={styles.page}>
       <ScreenHeader title={t.form.addTitle} backTo="/" backLabel={t.common.back} />
-      <AddCardForm
-        submitLabel={t.form.save}
-        onSubmit={async (input) => {
-          const card = await cardService.createCard(input);
-          navigate(`/cards/${card.id}`);
-        }}
-      />
+      <section className={styles.content}>
+        <AddCardForm
+          submitLabel={t.form.save}
+          onSubmit={async (input) => {
+            const card = await cardService.createCard(input);
+            navigate(`/cards/${card.id}`);
+          }}
+        />
+      </section>
     </section>
   );
 };
