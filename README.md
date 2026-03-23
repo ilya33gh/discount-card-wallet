@@ -27,7 +27,7 @@ npm run prisma:push
 npm run dev
 ```
 
-If you test on iPhone, set your PC local IP in app settings (for example `http://192.168.1.10:8787`) instead of `localhost`.
+If you test on mobile device, set your PC local IP in app settings (for example `http://192.168.1.10:8787`) instead of `localhost`.
 
 Tombstone cleanup optimization (server):
 
